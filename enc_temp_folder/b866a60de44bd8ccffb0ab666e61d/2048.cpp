@@ -68,6 +68,7 @@ void applyMove(int direction) {
 	for (int i = startLine; i >= 0 && i < 4; i += lineStep)
 		for (int j = startColumn; j >= 0 && j < 4; j += columnStep) {
 			int nextI = i + dirLine[direction], nextJ = j + dirColumn[direction];
+			//std::cout << i << ' ' << j << ' ' << nextI << ' ' << nextJ<<"\n";
 			if (board[i][j] != 0 && canDoMove(i, j, nextI, nextJ)) {
 				board[nextI][nextJ] += board[i][j];
 				board[i][j] = 0;
@@ -105,6 +106,7 @@ int main()
 		}
 		else {
 			int currentDirection = commandToDir[command];
+			//std::cout << currentDirection;
 			applyMove(currentDirection);
 		}
 	}
