@@ -1,4 +1,4 @@
-#pragma warning(disable:4996 6031)
+#pragma warning(disable:4996)
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -9,11 +9,29 @@
 constexpr char FILE_NAME[] = "PlayersInfo.txt";
 constexpr char TEMP_FILE_NAME[] = "TempFile.txt";
 
-
 Player::Player(const char* uname) : bestScore(0) {
     username = new char[strlen(uname) + 1];
     std::strcpy(username, uname);
     loadPlayerData();
+}
+
+Player::Player(const Player& other) : bestScore(other.bestScore) {
+    username = new char[strlen(other.username) + 1];
+    std::strcpy(username, other.username);
+}
+
+Player& Player::operator=(const Player& other) {
+    if (this == &other) {
+        return *this;
+    }
+
+    delete[] username;
+
+    username = new char[strlen(other.username) + 1];
+    std::strcpy(username, other.username);
+    bestScore = other.bestScore;
+
+    return *this;
 }
 
 Player::~Player()
@@ -29,7 +47,7 @@ int Player::getBestScore() const {
     return bestScore;
 }
 
-void Player::setBestScore(int score, Player& player) {
+void Player::setBestScore(unsigned int score, Player& player) {
     if (score > bestScore) {
         player.bestScore = score;
         savePlayerData(player);
@@ -56,7 +74,7 @@ void Player::savePlayerData(const Player& player) {
     std::ofstream tempFile(TEMP_FILE_NAME);
     if (!tempFile.is_open())
         return;
-    if (!infile.is_open() ) 
+    if (!infile.is_open()) 
         return;
 
     char fileUsername[50];

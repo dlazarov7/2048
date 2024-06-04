@@ -1,1 +1,3 @@
 test 3440
+mitko 0
+randi 204
